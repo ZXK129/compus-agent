@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: campus-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # ========== 数据库配置 ==========
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/campus_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # ========== JPA 配置 ==========
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # ========== AI 提供商配置 ==========
+  # 通过环境变量 AI_PROVIDER 切换: gemini | openai
+  # 默认为演示模式 (demo)，不调用任何 AI 服务
+  ai:
+    provider: ${AI_PROVIDER:openai}
+    # Spring AI 自动配置（spring-ai-openai-starter 从此路径读取）
+    openai:
+      api-key: ${OPENAI_API_KEY:sk-d37d7fe1eb2d44439a6a3622e23dfff6}
+      base-url: ${OPENAI_BASE_URL:https://ws-z9doelpycqbvy29y.cn-beijing.maas.aliyuncs.com/compatible-mode/v1}
+      chat:
+        options:
+          model: ${OPENAI_MODEL:qwen3.7-plus}
+          temperature: 0.7
+          max-tokens: 1024
+      embedding:
+        enabled: false
+
+  # ========== Google Gemini 配置 ==========
+  # 当 AI_PROVIDER=gemini 时生效
+  vertex:
+    ai:
+      gemini:
+        project-id: ${GEMINI_PROJECT_ID:}
+        location: ${GEMINI_LOCATION:us-central1}
+        api-key: ${GEMINI_API_KEY:}
+
+  # ========== OpenAI 兼容接口配置（业务层读取） ==========
+  # 当 AI_PROVIDER=openai 时生效
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    base-url: ${OPENAI_BASE_URL:https://ws-z9doelpycqbvy29y.cn-beijing.maas.aliyuncs.com/compatible-mode/v1}
+    model: ${OPENAI_MODEL:qwen3.7-plus}
+
+# ========== 校园智能体自定义配置 ==========
+campus:
+  # AI 系统提示词（可根据学校风格自定义）
+  system-instruction:
+    prompt-file: classpath:prompts/system_instruction.txt
+
+  # 演示模式学生ID（数据库初始化后的默认学生）
+  demo-student-id: 1

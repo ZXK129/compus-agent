@@ -1,0 +1,12 @@
+package com.starrycampus.card.repository;
+
+import com.starrycampus.card.entity.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    List<Transaction> findByCardIdOrderByCreatedAtDesc(Long cardId);
+    List<Transaction> findTop3ByCardIdOrderByCreatedAtDesc(Long cardId);
+}
