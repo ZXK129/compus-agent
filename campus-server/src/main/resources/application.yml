@@ -31,7 +31,7 @@ spring:
     provider: ${AI_PROVIDER:openai}
     # Spring AI 自动配置（spring-ai-openai-starter 从此路径读取）
     openai:
-      api-key: ${OPENAI_API_KEY:sk-d37d7fe1eb2d44439a6a3622e23dfff6}
+      api-key: ${OPENAI_API_KEY:}
       base-url: ${OPENAI_BASE_URL:https://ws-z9doelpycqbvy29y.cn-beijing.maas.aliyuncs.com/compatible-mode/v1}
       chat:
         options:
